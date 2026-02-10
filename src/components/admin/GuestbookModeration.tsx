@@ -1,92 +1,147 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useEffect, useState } from "react";
 import Button from "@/components/ui/Button";
 import type { GuestbookEntry } from "@/lib/types";
 import { formatDate } from "@/lib/utils";
+
+async function fetchGuestbookSets() {
+  const [approvedRes, pendingRes] = await Promise.all([
+    fetch("/api/guestbook"),
+    fetch("/api/guestbook?pending=true"),
+  ]);
+
+  const approved = approvedRes.ok ? ((await approvedRes.json()) as GuestbookEntry[]) : [];
+  const pending = pendingRes.ok ? ((await pendingRes.json()) as GuestbookEntry[]) : [];
+  return { approved, pending };
+}
 
 export default function GuestbookModeration() {
   const [pending, setPending] = useState<GuestbookEntry[]>([]);
   const [approved, setApproved] = useState<GuestbookEntry[]>([]);
   const [loading, setLoading] = useState(true);
+  const [refreshToken, setRefreshToken] = useState(0);
 
-  const loadMessages = useCallback(async () => {
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadMessages() {
+      try {
+        const data = await fetchGuestbookSets();
+        if (cancelled) return;
+        setApproved(data.approved);
+        setPending(data.pending);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+
+    void loadMessages();
+    return () => {
+      cancelled = true;
+    };
+  }, [refreshToken]);
+
+  function refreshMessages() {
     setLoading(true);
-    try {
-      const [approvedRes, pendingRes] = await Promise.all([fetch("/api/guestbook"), fetch("/api/guestbook?pending=true")]);
-      if (approvedRes.ok) setApproved(await approvedRes.json());
-      if (pendingRes.ok) setPending(await pendingRes.json());
-    } catch { /* */ }
-    setLoading(false);
-  }, []);
-
-  useEffect(() => { loadMessages(); }, [loadMessages]);
+    setRefreshToken((prev) => prev + 1);
+  }
 
   async function handleApprove(id: string) {
-    try { const res = await fetch("/api/guestbook", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id, approved: true }) }); if (res.ok) loadMessages(); } catch { /* */ }
+    const res = await fetch("/api/guestbook", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, approved: true }),
+    });
+    if (res.ok) refreshMessages();
   }
 
   async function handleReject(id: string) {
     if (!confirm("Supprimer ce message ?")) return;
-    try { const res = await fetch(`/api/guestbook?id=${id}`, { method: "DELETE" }); if (res.ok) loadMessages(); } catch { /* */ }
+    const res = await fetch(`/api/guestbook?id=${id}`, { method: "DELETE" });
+    if (res.ok) refreshMessages();
   }
 
   async function handleUnapprove(id: string) {
-    try { const res = await fetch("/api/guestbook", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id, approved: false }) }); if (res.ok) loadMessages(); } catch { /* */ }
+    const res = await fetch("/api/guestbook", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, approved: false }),
+    });
+    if (res.ok) refreshMessages();
   }
 
-  if (loading) return <p className="text-wood-light py-8 text-center">Chargement...</p>;
+  if (loading) {
+    return (
+      <p className="rounded-xl border border-bistro/10 bg-chalk p-6 text-center text-sm text-slate">
+        Chargement des messages...
+      </p>
+    );
+  }
 
   return (
-    <div className="space-y-8">
-      <section>
-        <h2 className="font-heading text-xl text-wood mb-4">Messages en attente ({pending.length})</h2>
+    <div className="space-y-6">
+      <section className="rounded-2xl border border-amber-200 bg-amber-50/60 p-4 shadow-sm sm:p-5">
+        <h2 className="font-heading text-2xl text-bistro">Messages en attente ({pending.length})</h2>
+
         {pending.length === 0 ? (
-          <p className="text-wood-light text-sm bg-white rounded-lg p-4 border border-gold/10">Aucun message en attente.</p>
+          <p className="mt-3 rounded-lg border border-bistro/10 bg-chalk p-4 text-sm text-slate">
+            Aucun message en attente.
+          </p>
         ) : (
-          <div className="space-y-3">
+          <div className="mt-3 space-y-2">
             {pending.map((entry) => (
-              <div key={entry.id} className="bg-white rounded-lg p-4 border-2 border-amber-200">
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="font-medium text-wood">{entry.nom}</span>
-                      <span className="text-xs text-wood/40">{formatDate(entry.created_at)}</span>
-                    </div>
-                    <p className="text-wood-light text-sm">{entry.message}</p>
-                  </div>
-                  <div className="flex gap-2 shrink-0">
-                    <Button size="sm" onClick={() => handleApprove(entry.id)}>Approuver</Button>
-                    <Button size="sm" variant="danger" onClick={() => handleReject(entry.id)}>Supprimer</Button>
-                  </div>
+              <article key={entry.id} className="rounded-xl border border-amber-200 bg-chalk p-4">
+                <header className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                  <span className="font-semibold text-bistro">{entry.nom}</span>
+                  <span className="text-xs text-slate-light">{formatDate(entry.created_at)}</span>
+                </header>
+                <p className="mt-2 text-sm leading-relaxed text-slate">{entry.message}</p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <Button size="sm" onClick={() => handleApprove(entry.id)}>
+                    Approuver
+                  </Button>
+                  <Button size="sm" variant="danger" onClick={() => handleReject(entry.id)}>
+                    Supprimer
+                  </Button>
                 </div>
-              </div>
+              </article>
             ))}
           </div>
         )}
       </section>
-      <section>
-        <h2 className="font-heading text-xl text-wood mb-4">Messages publi&eacute;s ({approved.length})</h2>
+
+      <section className="rounded-2xl border border-green-200 bg-green-50/40 p-4 shadow-sm sm:p-5">
+        <h2 className="font-heading text-2xl text-bistro">Messages publies ({approved.length})</h2>
+
         {approved.length === 0 ? (
-          <p className="text-wood-light text-sm bg-white rounded-lg p-4 border border-gold/10">Aucun message publi&eacute;.</p>
+          <p className="mt-3 rounded-lg border border-bistro/10 bg-chalk p-4 text-sm text-slate">
+            Aucun message publie.
+          </p>
         ) : (
-          <div className="space-y-3">
+          <div className="mt-3 space-y-2">
             {approved.map((entry) => (
-              <div key={entry.id} className="bg-white rounded-lg p-4 border border-green-200">
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="font-medium text-wood">{entry.nom}</span>
-                      <span className="text-xs text-wood/40">{formatDate(entry.created_at)}</span>
-                    </div>
-                    <p className="text-wood-light text-sm">{entry.message}</p>
-                  </div>
-                  <div className="flex gap-2 shrink-0">
-                    <button onClick={() => handleUnapprove(entry.id)} className="text-sm text-wood-light hover:text-amber-600 transition-colors">Masquer</button>
-                    <button onClick={() => handleReject(entry.id)} className="text-sm text-wood-light hover:text-red-600 transition-colors">Supprimer</button>
-                  </div>
+              <article key={entry.id} className="rounded-xl border border-green-200 bg-chalk p-4">
+                <header className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                  <span className="font-semibold text-bistro">{entry.nom}</span>
+                  <span className="text-xs text-slate-light">{formatDate(entry.created_at)}</span>
+                </header>
+                <p className="mt-2 text-sm leading-relaxed text-slate">{entry.message}</p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <button
+                    onClick={() => handleUnapprove(entry.id)}
+                    className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-1.5 text-sm font-medium text-amber-700 hover:bg-amber-100"
+                  >
+                    Masquer
+                  </button>
+                  <button
+                    onClick={() => handleReject(entry.id)}
+                    className="rounded-lg border border-red-200 bg-red-50 px-3 py-1.5 text-sm font-medium text-red-700 hover:bg-red-100"
+                  >
+                    Supprimer
+                  </button>
                 </div>
-              </div>
+              </article>
             ))}
           </div>
         )}
