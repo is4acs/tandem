@@ -1,6 +1,7 @@
 export const RESTAURANT = {
   name: "Le Tandem",
-  description: "Restaurant à Embrun",
+  subtitle: "Bistrot - Resto",
+  description: "Bistrot - Resto à Embrun",
   address: "Embrun, France",
   fullAddress: "Embrun, 05200, France",
   phone: "",
@@ -36,6 +37,7 @@ export const NAV_LINKS = [
 export const MENU_CATEGORIES = [
   "Entrées",
   "Plats",
+  "Suggestions du Chef",
   "Desserts",
   "Boissons",
 ] as const;

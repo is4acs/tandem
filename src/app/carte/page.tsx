@@ -7,7 +7,7 @@ import { supabaseAdmin } from "@/lib/supabase-server";
 
 export const metadata: Metadata = {
   title: "La Carte",
-  description: "Découvrez la carte du Tandem : entrées, plats, desserts et boissons. Restaurant à Embrun.",
+  description: "Découvrez la carte du Tandem : entrées, plats, suggestions du chef, desserts et boissons. Bistrot-Resto à Embrun.",
 };
 
 export const revalidate = 300;
@@ -36,9 +36,16 @@ export default async function CartePage() {
     <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12 md:py-20">
       <SectionTitle>La Carte</SectionTitle>
       {hasItems ? (
-        grouped.map((group) => (
-          <MenuCategory key={group.name} name={group.name} items={group.items} />
-        ))
+        <>
+          {grouped.map((group) => (
+            <MenuCategory key={group.name} name={group.name} items={group.items} />
+          ))}
+          <div className="mt-12 p-4 bg-gold/10 border border-gold/20 rounded-lg text-center">
+            <p className="text-wood-light text-sm italic">
+              🍽️ Pensez à nous prévenir de vos allergies et à nous demander le tableau spécifique.
+            </p>
+          </div>
+        </>
       ) : (
         <div className="text-center py-16">
           <p className="text-wood-light text-lg">La carte est en cours de préparation...</p>

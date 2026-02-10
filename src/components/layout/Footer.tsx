@@ -14,7 +14,8 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
-            <h3 className="font-heading text-xl text-gold mb-4">Le Tandem</h3>
+            <h3 className="font-heading text-xl text-gold mb-2">Le Tandem</h3>
+            <p className="text-xs text-cream/60 mb-3 italic">{RESTAURANT.subtitle}</p>
             <p className="text-sm leading-relaxed">{RESTAURANT.fullAddress}</p>
             {RESTAURANT.phone && <p className="text-sm mt-2">{RESTAURANT.phone}</p>}
           </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { NAV_LINKS } from "@/lib/constants";
@@ -16,7 +17,14 @@ export default function Header() {
     <header className="bg-white/80 backdrop-blur-sm border-b border-gold/20 sticky top-0 z-50">
       <nav className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
-          <span className="font-heading text-2xl text-terracotta font-bold">Le Tandem</span>
+          <Image
+            src="/images/logo-tandem.png"
+            alt="Le Tandem"
+            width={120}
+            height={45}
+            className="h-10 w-auto"
+            priority
+          />
         </Link>
 
         <ul className="hidden md:flex items-center gap-8">
