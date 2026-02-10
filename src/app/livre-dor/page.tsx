@@ -28,12 +28,12 @@ export default async function LivreDorPage() {
   const entries = await getGuestbookEntries();
 
   return (
-    <div className="max-w-2xl mx-auto px-4 sm:px-6 py-12 md:py-20">
+    <div className="max-w-2xl mx-auto px-4 sm:px-6 py-10 md:py-20">
       <SectionTitle>Livre d&apos;Or</SectionTitle>
-      <p className="text-center text-slate-light mb-10 text-lg">
+      <p className="text-center text-slate-light mb-8 md:mb-10 text-base md:text-lg">
         Partagez votre expérience au Tandem ! Votre avis compte pour nous.
       </p>
-      <div className="mb-12">
+      <div className="mb-10 md:mb-12">
         <GuestbookForm />
       </div>
       <div>

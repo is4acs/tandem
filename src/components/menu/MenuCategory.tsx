@@ -118,14 +118,14 @@ export default function MenuCategory({ name, items, subtitle }: MenuCategoryProp
   const grouped = groupVariants(items);
 
   return (
-    <section className={`mb-10 ${isChefSuggestion ? "bg-mountain/[0.05] -mx-4 px-4 py-6 rounded-xl border border-mountain/15" : ""}`}>
-      <div className="flex items-center gap-4 mb-1">
-        <div className="flex-1 h-[2px] bg-bistro/15" />
-        <h3 className="font-heading text-xl text-bistro uppercase tracking-[0.16em] whitespace-nowrap font-semibold flex items-center gap-2">
+    <section className={`mb-8 md:mb-10 ${isChefSuggestion ? "bg-mountain/[0.05] -mx-2 sm:-mx-4 px-3 sm:px-4 py-5 md:py-6 rounded-xl border border-mountain/15" : ""}`}>
+      <div className="flex items-center justify-center gap-2 sm:gap-4 mb-1">
+        <div className="hidden sm:block flex-1 h-[2px] bg-bistro/15" />
+        <h3 className="font-heading text-lg sm:text-xl text-bistro uppercase tracking-[0.09em] sm:tracking-[0.16em] font-semibold flex items-center justify-center gap-1.5 sm:gap-2 text-center">
           {isChefSuggestion && <ChefIcon />}
           {name}
         </h3>
-        <div className="flex-1 h-[2px] bg-bistro/15" />
+        <div className="hidden sm:block flex-1 h-[2px] bg-bistro/15" />
       </div>
       {subtitle && (
         <p className="text-center text-xs text-slate-light uppercase tracking-widest mb-4">{subtitle}</p>

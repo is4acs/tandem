@@ -3,24 +3,24 @@ import TandemBike from "@/components/ui/TandemBike";
 
 export default function InfoSection() {
   return (
-    <section className="max-w-6xl mx-auto px-4 sm:px-6 py-16 md:py-24">
-      <div className="text-center mb-10 md:mb-12">
+    <section className="max-w-6xl mx-auto px-4 sm:px-6 py-14 md:py-24">
+      <div className="text-center mb-8 md:mb-12">
         <p className="text-xs uppercase tracking-[0.26em] text-slate-light">Bistrot de village</p>
-        <h2 className="font-heading text-4xl md:text-5xl text-bistro mt-2">Une halte au pied des sommets</h2>
+        <h2 className="font-heading text-3xl md:text-5xl text-bistro mt-2">Une halte au pied des sommets</h2>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
-        <article className="relative overflow-hidden rounded-2xl p-8 border border-mountain/20 bg-chalk/95 shadow-lg shadow-bistro/[0.06]">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-7">
+        <article className="relative overflow-hidden rounded-2xl p-6 md:p-8 border border-mountain/20 bg-chalk/95 shadow-lg shadow-bistro/[0.06]">
           <div className="absolute -right-8 -top-8 w-32 h-32 rounded-full bg-mountain/10" />
-          <h3 className="font-heading text-2xl text-bistro mb-6 flex items-center gap-3">
+          <h3 className="font-heading text-xl md:text-2xl text-bistro mb-5 md:mb-6 flex items-center gap-3">
             <svg className="w-6 h-6 text-mountain" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             Horaires d&apos;ouverture
           </h3>
-          <ul className="space-y-3.5">
+          <ul className="space-y-3">
             {RESTAURANT.hours.map((h) => (
-              <li key={h.day} className={`flex justify-between items-center text-sm ${h.hours === "Fermé" ? "text-bistro/35" : "text-bistro"}`}>
+              <li key={h.day} className={`flex justify-between items-center text-xs sm:text-sm ${h.hours === "Fermé" ? "text-bistro/35" : "text-bistro"}`}>
                 <span className="font-medium">{h.day}</span>
                 <span className={h.hours === "Fermé" ? "italic" : "text-slate-light"}>{h.hours}</span>
               </li>
@@ -28,12 +28,12 @@ export default function InfoSection() {
           </ul>
         </article>
 
-        <article className="relative overflow-hidden rounded-2xl p-8 border border-mountain/20 bg-gradient-to-br from-chalk to-cream shadow-lg shadow-bistro/[0.06]">
+        <article className="relative overflow-hidden rounded-2xl p-6 md:p-8 border border-mountain/20 bg-gradient-to-br from-chalk to-cream shadow-lg shadow-bistro/[0.06]">
           <div className="absolute bottom-0 right-0 opacity-15">
             <TandemBike className="w-48 h-16 text-mountain" />
           </div>
 
-          <h3 className="font-heading text-2xl text-bistro mb-6 flex items-center gap-3">
+          <h3 className="font-heading text-xl md:text-2xl text-bistro mb-5 md:mb-6 flex items-center gap-3">
             <svg className="w-6 h-6 text-mountain" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />

@@ -12,14 +12,14 @@ export default function Footer() {
   if (pathname.startsWith("/admin")) return null;
 
   return (
-    <footer className="relative overflow-hidden bg-bistro text-chalk/90 mt-16">
+    <footer className="relative overflow-hidden bg-bistro text-chalk/90 mt-12 md:mt-16">
       <div className="absolute inset-0 opacity-[0.08] pointer-events-none">
         <svg className="absolute bottom-0 left-0 w-full h-36" viewBox="0 0 1440 320" preserveAspectRatio="none">
           <path fill="currentColor" d="M0,224 L130,180 L260,234 L390,166 L520,236 L650,170 L780,228 L910,152 L1040,220 L1170,170 L1300,226 L1440,188 L1440,320 L0,320 Z" />
         </svg>
       </div>
-      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 py-10 md:py-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-7 md:gap-8">
           <div>
             <div className="inline-flex bg-chalk rounded-xl px-3 py-2 shadow-md shadow-black/20">
               <Image
@@ -27,7 +27,7 @@ export default function Footer() {
                 alt="Le Tandem Bistrot-Resto"
                 width={1200}
                 height={374}
-                className="h-8 w-auto object-contain"
+                className="h-7 sm:h-8 w-auto object-contain"
               />
             </div>
             <p className="text-xs text-mountain-light mt-3 uppercase tracking-[0.22em]">Bistrot traditionnel</p>
@@ -37,10 +37,10 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="font-heading text-xl text-chalk mb-4">Horaires</h3>
+            <h3 className="font-heading text-xl text-chalk mb-3">Horaires</h3>
             <ul className="space-y-1.5">
               {RESTAURANT.hours.map((h) => (
-                <li key={h.day} className="text-sm flex justify-between gap-4">
+                <li key={h.day} className="text-xs sm:text-sm flex justify-between gap-3">
                   <span className="font-medium text-chalk/80">{h.day}</span>
                   <span className={h.hours === "Fermé" ? "text-chalk/35 italic" : "text-chalk/65"}>{h.hours}</span>
                 </li>
@@ -69,9 +69,9 @@ export default function Footer() {
             </div>
           </div>
         </div>
-        <div className="mt-10 pt-6 border-t border-chalk/10 flex flex-col items-center gap-3">
+        <div className="mt-8 pt-5 border-t border-chalk/10 flex flex-col items-center gap-3">
           <TandemBike className="w-24 h-8 text-mountain-light/50" />
-          <p className="text-sm text-chalk/40">
+          <p className="text-xs sm:text-sm text-chalk/40 text-center">
             &copy; {new Date().getFullYear()} Le Tandem &mdash; Bistrot Resto à Embrun
           </p>
         </div>

@@ -41,22 +41,22 @@ export default function MenuItem({ item }: MenuItemProps) {
   if (isHeader) {
     return (
       <div className="pt-4 pb-1">
-        <h4 className="font-semibold text-bistro">{item.nom}</h4>
+        <h4 className="font-semibold text-bistro text-[15px] sm:text-base">{item.nom}</h4>
         {item.description && renderDescription(item.description)}
       </div>
     );
   }
 
   return (
-    <div className="flex justify-between items-start gap-4 py-2.5 border-b border-bistro/[0.06] last:border-0">
+    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1.5 sm:gap-4 py-2.5 border-b border-bistro/[0.06] last:border-0">
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 flex-wrap">
-          <span className="font-medium text-bistro">{item.nom}</span>
+          <span className="font-medium text-bistro text-[15px] sm:text-base">{item.nom}</span>
           {item.promo && <PromoTag />}
         </div>
         {item.description && renderDescription(item.description)}
       </div>
-      <div className="text-right shrink-0">
+      <div className="sm:text-right shrink-0">
         {item.promo && item.prix_promo != null ? (
           <div>
             <span className="text-sm text-bistro/30 line-through">{formatPrice(item.prix)}</span>

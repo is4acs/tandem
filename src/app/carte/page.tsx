@@ -53,8 +53,8 @@ export default async function CartePage() {
   const drinkGroups = grouped.filter((g) => !foodCategories.includes(g.name));
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12 md:py-20">
-      <header className="relative overflow-hidden rounded-2xl bg-bistro text-chalk px-6 md:px-10 py-10 mb-12 shadow-xl shadow-bistro/20">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10 md:py-20">
+      <header className="relative overflow-hidden rounded-2xl bg-bistro text-chalk px-5 sm:px-6 md:px-10 py-8 md:py-10 mb-8 md:mb-12 shadow-xl shadow-bistro/20">
         <div className="absolute inset-0 opacity-25 pointer-events-none">
           <svg className="absolute bottom-0 left-0 w-full h-24" viewBox="0 0 1440 320" preserveAspectRatio="none">
             <path fill="currentColor" d="M0,224 L140,175 L280,232 L420,162 L560,236 L700,168 L840,226 L980,156 L1120,226 L1260,170 L1440,220 L1440,320 L0,320 Z" />
@@ -66,12 +66,12 @@ export default async function CartePage() {
             <TandemBike className="w-16 h-6 text-mountain-light" />
             <div className="w-10 h-px bg-mountain-light/40" />
           </div>
-          <h1 className="font-heading text-4xl md:text-5xl">La Carte</h1>
-          <p className="text-sm uppercase tracking-[0.22em] text-mountain-light mt-2">Bistrot traditionnel · saveurs de montagne</p>
+          <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl">La Carte</h1>
+          <p className="text-xs sm:text-sm uppercase tracking-[0.14em] sm:tracking-[0.22em] text-mountain-light mt-2">Bistrot traditionnel · saveurs de montagne</p>
         </div>
       </header>
 
-      <section className="mb-10 grid gap-3 sm:grid-cols-3">
+      <section className="mb-8 md:mb-10 grid gap-3 sm:grid-cols-3">
         {EMBRUN_WINKS.map((line) => (
           <p
             key={line}
@@ -89,7 +89,7 @@ export default async function CartePage() {
           ))}
 
           {drinkGroups.some((g) => g.items.length > 0) && (
-            <div className="my-12 flex items-center gap-4">
+            <div className="my-9 md:my-12 flex items-center gap-3 md:gap-4">
               <div className="flex-1 h-px bg-bistro/10" />
               <span className="text-bistro/45 text-xs uppercase tracking-[0.24em]">Boissons</span>
               <div className="flex-1 h-px bg-bistro/10" />

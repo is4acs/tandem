@@ -54,12 +54,12 @@ export default function MenuItemGroup({ baseName, description, variants }: MenuI
     });
 
   return (
-    <div className="flex justify-between items-start gap-4 py-2.5 border-b border-bistro/[0.06] last:border-0">
+    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1.5 sm:gap-4 py-2.5 border-b border-bistro/[0.06] last:border-0">
       <div className="flex-1 min-w-0">
-        <span className="font-medium text-bistro">{baseName}</span>
+        <span className="font-medium text-bistro text-[15px] sm:text-base">{baseName}</span>
         {description && renderDescription(description)}
       </div>
-      <div className="text-right shrink-0 flex items-center gap-3">
+      <div className="sm:text-right shrink-0 flex flex-wrap items-center gap-x-3 gap-y-1">
         {orderedVariants.map((v, idx) => (
           <span key={idx} className="inline-flex items-baseline gap-1">
             {v.label && (

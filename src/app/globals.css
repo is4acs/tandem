@@ -24,6 +24,7 @@
 
 html {
   background-color: #f1efe9;
+  overflow-x: hidden;
 }
 
 body {
@@ -34,6 +35,8 @@ body {
   color: var(--color-bistro);
   font-family: var(--font-body), system-ui, sans-serif;
   position: relative;
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body::before {

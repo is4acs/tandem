@@ -29,9 +29,9 @@ export default async function EvenementsPage() {
   const events = await getEvenements();
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12 md:py-20">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10 md:py-20">
       <SectionTitle>Événements</SectionTitle>
-      <p className="text-center text-slate-light mb-10 text-lg max-w-2xl mx-auto">
+      <p className="text-center text-slate-light mb-8 md:mb-10 text-base md:text-lg max-w-2xl mx-auto">
         Soirées jeux, concerts, événements spéciaux... Il se passe toujours quelque chose au Tandem !
       </p>
       <EventList events={events} />
