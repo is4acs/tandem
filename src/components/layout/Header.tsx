@@ -20,9 +20,9 @@ export default function Header() {
           <Image
             src="/images/logo-tandem.png"
             alt="Le Tandem"
-            width={120}
-            height={45}
-            className="h-10 w-auto"
+            width={140}
+            height={50}
+            className="h-11 w-auto object-contain"
             priority
           />
         </Link>

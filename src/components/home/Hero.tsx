@@ -8,15 +8,18 @@ export default function Hero() {
         <div className="absolute inset-0" style={{ backgroundImage: `radial-gradient(circle at 25% 25%, #D4A574 1px, transparent 1px), radial-gradient(circle at 75% 75%, #D4A574 1px, transparent 1px)`, backgroundSize: "40px 40px" }} />
       </div>
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 py-16 md:py-28 text-center">
-        <Image
-          src="/images/logo-tandem.png"
-          alt="Le Tandem - Bistrot Resto"
-          width={400}
-          height={150}
-          className="mx-auto mb-8 brightness-0 invert"
-          priority
-        />
-        <p className="text-xl md:text-2xl text-cream/80 mb-4 font-light">Bistrot - Resto &agrave; Embrun</p>
+        <div className="inline-block bg-cream rounded-2xl px-8 py-4 mb-8 shadow-lg">
+          <Image
+            src="/images/logo-tandem.png"
+            alt="Le Tandem - Bistrot Resto"
+            width={350}
+            height={120}
+            className="mx-auto"
+            style={{ objectFit: "contain" }}
+            priority
+          />
+        </div>
+        <p className="text-xl md:text-2xl text-cream/80 mb-4 font-light">à Embrun</p>
         <div className="w-24 h-0.5 bg-terracotta mx-auto mb-8" />
         <p className="text-lg text-cream/70 max-w-xl mx-auto mb-10 leading-relaxed">
           Bienvenue au Tandem ! Venez d&eacute;couvrir notre cuisine, nos soir&eacute;es &eacute;v&eacute;nementielles et notre ambiance chaleureuse au coeur d&apos;Embrun.
