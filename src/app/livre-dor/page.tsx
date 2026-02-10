@@ -3,6 +3,7 @@ import SectionTitle from "@/components/ui/SectionTitle";
 import GuestbookList from "@/components/guestbook/GuestbookList";
 import GuestbookForm from "@/components/guestbook/GuestbookForm";
 import type { GuestbookEntry } from "@/lib/types";
+import { supabaseAdmin } from "@/lib/supabase-server";
 
 export const metadata: Metadata = {
   title: "Livre d'Or",
@@ -12,14 +13,15 @@ export const metadata: Metadata = {
 export const revalidate = 60;
 
 async function getGuestbookEntries(): Promise<GuestbookEntry[]> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-  try {
-    const res = await fetch(`${baseUrl}/api/guestbook`, { next: { revalidate: 60 } });
-    if (!res.ok) return [];
-    return res.json();
-  } catch {
-    return [];
-  }
+  const { data, error } = await supabaseAdmin
+    .from("guestbook")
+    .select("*")
+    .eq("approved", true)
+    .order("created_at", { ascending: false })
+    .limit(50);
+
+  if (error) return [];
+  return data || [];
 }
 
 export default async function LivreDorPage() {

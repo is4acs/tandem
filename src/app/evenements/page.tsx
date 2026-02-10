@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import SectionTitle from "@/components/ui/SectionTitle";
 import EventList from "@/components/events/EventList";
 import type { Evenement } from "@/lib/types";
+import { supabaseAdmin } from "@/lib/supabase-server";
 
 export const metadata: Metadata = {
   title: "Événements",
@@ -11,14 +12,17 @@ export const metadata: Metadata = {
 export const revalidate = 3600;
 
 async function getEvenements(): Promise<Evenement[]> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-  try {
-    const res = await fetch(`${baseUrl}/api/evenements`, { next: { revalidate: 3600 } });
-    if (!res.ok) return [];
-    return res.json();
-  } catch {
-    return [];
-  }
+  const today = new Date().toISOString().split("T")[0];
+
+  const { data, error } = await supabaseAdmin
+    .from("evenements")
+    .select("*")
+    .eq("visible", true)
+    .gte("date", today)
+    .order("date", { ascending: true });
+
+  if (error) return [];
+  return data || [];
 }
 
 export default async function EvenementsPage() {

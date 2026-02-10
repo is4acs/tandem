@@ -3,6 +3,7 @@ import SectionTitle from "@/components/ui/SectionTitle";
 import MenuCategory from "@/components/menu/MenuCategory";
 import type { MenuItem } from "@/lib/types";
 import { MENU_CATEGORIES } from "@/lib/constants";
+import { supabaseAdmin } from "@/lib/supabase-server";
 
 export const metadata: Metadata = {
   title: "La Carte",
@@ -12,14 +13,15 @@ export const metadata: Metadata = {
 export const revalidate = 300;
 
 async function getMenuItems(): Promise<MenuItem[]> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-  try {
-    const res = await fetch(`${baseUrl}/api/menu`, { next: { revalidate: 300 } });
-    if (!res.ok) return [];
-    return res.json();
-  } catch {
-    return [];
-  }
+  const { data, error } = await supabaseAdmin
+    .from("menu_items")
+    .select("*")
+    .eq("visible", true)
+    .order("ordre", { ascending: true })
+    .order("nom", { ascending: true });
+
+  if (error) return [];
+  return data || [];
 }
 
 export default async function CartePage() {
