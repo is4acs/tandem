@@ -1,11 +1,11 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { NAV_LINKS } from "@/lib/constants";
 import MobileNav from "./MobileNav";
-import TandemBike from "@/components/ui/TandemBike";
 
 export default function Header() {
   const pathname = usePathname();
@@ -14,26 +14,39 @@ export default function Header() {
   if (pathname.startsWith("/admin")) return null;
 
   return (
-    <header className="bg-chalk/90 backdrop-blur-sm border-b border-bistro/10 sticky top-0 z-50">
-      <nav className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2.5 group">
-          <TandemBike className="w-10 h-4 transition-colors text-bistro group-hover:text-mountain" />
-          <span className="font-heading text-xl text-bistro font-bold">Le Tandem</span>
+    <header className="sticky top-0 z-50 border-b border-bistro/10 bg-cream/90 backdrop-blur-md">
+      <div className="h-1 bg-gradient-to-r from-mountain-dark via-mountain to-mountain-light" />
+      <nav className="max-w-6xl mx-auto px-4 sm:px-6 h-[4.5rem] flex items-center justify-between">
+        <Link href="/" className="group inline-flex items-center">
+          <Image
+            src="/images/logo-tandem-transparent.png"
+            alt="Le Tandem Bistrot-Resto"
+            width={1200}
+            height={374}
+            className="h-10 md:h-11 w-auto object-contain"
+            priority
+          />
+          <span className="sr-only">Le Tandem Bistrot-Resto</span>
         </Link>
 
-        <ul className="hidden md:flex items-center gap-8">
-          {NAV_LINKS.map((link) => (
-            <li key={link.href}>
-              <Link
-                href={link.href}
-                className={`text-sm font-medium transition-colors hover:text-accent ${
-                  pathname === link.href ? "text-accent" : "text-slate"
-                }`}
-              >
-                {link.label}
-              </Link>
-            </li>
-          ))}
+        <ul className="hidden md:flex items-center gap-2">
+          {NAV_LINKS.map((link) => {
+            const active = pathname === link.href;
+            return (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                    active
+                      ? "bg-bistro text-chalk shadow-sm"
+                      : "text-slate hover:text-bistro hover:bg-bistro/5"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
 
         <button onClick={() => setMobileOpen(true)} className="md:hidden p-2 text-bistro" aria-label="Ouvrir le menu">

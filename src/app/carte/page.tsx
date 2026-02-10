@@ -21,6 +21,12 @@ const CATEGORY_SUBTITLES: Record<string, string> = {
   "Vins au Verre": "12cl",
 };
 
+const EMBRUN_WINKS = [
+  "Ici, les assiettes montent vite au sommet: elles redescendent rarement pleines.",
+  "Entre le lac de Serre-Ponçon et les sommets d'Embrun, votre appétit est en terrain connu.",
+  "Conseil de refuge: gardez un peu de place pour le dessert, même après l'ascension des plats.",
+];
+
 async function getMenuItems(): Promise<MenuItem[]> {
   const { data, error } = await supabaseAdmin
     .from("menu_items")
@@ -47,17 +53,34 @@ export default async function CartePage() {
   const drinkGroups = grouped.filter((g) => !foodCategories.includes(g.name));
 
   return (
-    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12 md:py-20">
-      {/* Titre avec vélo tandem */}
-      <div className="text-center mb-12">
-        <div className="flex items-center justify-center gap-4 mb-4">
-          <div className="w-12 h-px bg-bistro/20" />
-          <TandemBike className="w-14 h-5 text-mountain" />
-          <div className="w-12 h-px bg-bistro/20" />
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12 md:py-20">
+      <header className="relative overflow-hidden rounded-2xl bg-bistro text-chalk px-6 md:px-10 py-10 mb-12 shadow-xl shadow-bistro/20">
+        <div className="absolute inset-0 opacity-25 pointer-events-none">
+          <svg className="absolute bottom-0 left-0 w-full h-24" viewBox="0 0 1440 320" preserveAspectRatio="none">
+            <path fill="currentColor" d="M0,224 L140,175 L280,232 L420,162 L560,236 L700,168 L840,226 L980,156 L1120,226 L1260,170 L1440,220 L1440,320 L0,320 Z" />
+          </svg>
         </div>
-        <h1 className="font-heading text-3xl md:text-4xl text-bistro">La Carte</h1>
-        <p className="text-sm text-slate-light mt-2 italic">Bistrot &mdash; Resto</p>
-      </div>
+        <div className="relative text-center">
+          <div className="flex items-center justify-center gap-4 mb-4">
+            <div className="w-10 h-px bg-mountain-light/40" />
+            <TandemBike className="w-16 h-6 text-mountain-light" />
+            <div className="w-10 h-px bg-mountain-light/40" />
+          </div>
+          <h1 className="font-heading text-4xl md:text-5xl">La Carte</h1>
+          <p className="text-sm uppercase tracking-[0.22em] text-mountain-light mt-2">Bistrot traditionnel · saveurs de montagne</p>
+        </div>
+      </header>
+
+      <section className="mb-10 grid gap-3 sm:grid-cols-3">
+        {EMBRUN_WINKS.map((line) => (
+          <p
+            key={line}
+            className="rounded-xl border border-mountain/20 bg-chalk/95 px-4 py-3 text-sm text-slate leading-relaxed shadow-sm"
+          >
+            {line}
+          </p>
+        ))}
+      </section>
 
       {hasItems ? (
         <>
@@ -68,7 +91,7 @@ export default async function CartePage() {
           {drinkGroups.some((g) => g.items.length > 0) && (
             <div className="my-12 flex items-center gap-4">
               <div className="flex-1 h-px bg-bistro/10" />
-              <span className="text-bistro/30 text-sm uppercase tracking-widest">Boissons</span>
+              <span className="text-bistro/45 text-xs uppercase tracking-[0.24em]">Boissons</span>
               <div className="flex-1 h-px bg-bistro/10" />
             </div>
           )}
@@ -83,7 +106,7 @@ export default async function CartePage() {
             <p className="text-slate-light text-sm italic">
               Pensez &agrave; nous pr&eacute;venir de vos allergies et &agrave; nous demander le tableau sp&eacute;cifique.
             </p>
-            <p className="text-bistro/25 text-xs mt-3">
+            <p className="text-bistro/35 text-xs mt-3">
               Prix nets et service compris &mdash; l&apos;abus d&apos;alcool est dangereux pour la sant&eacute;.
             </p>
           </div>
@@ -91,7 +114,7 @@ export default async function CartePage() {
       ) : (
         <div className="text-center py-16">
           <p className="text-slate-light text-lg">La carte est en cours de pr&eacute;paration...</p>
-          <p className="text-slate-light/60 mt-2">Revenez bient&ocirc;t pour d&eacute;couvrir nos plats !</p>
+          <p className="text-slate-light/60 mt-2">Revenez bient&ocirc;t pour d&eacute;couvrir nos plats.</p>
         </div>
       )}
     </div>

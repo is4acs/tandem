@@ -8,12 +8,11 @@ interface MenuCategoryProps {
   subtitle?: string;
 }
 
-// Patterns pour détecter les variantes d'un même produit
 const VARIANT_PATTERNS = [
-  /^(.+?)\s*\((\d+\s*pièces?)\)$/i,       // Escargots de Bourgogne (6 pièces)
-  /^(.+?)\s*\((Grande|Petite)\)$/i,         // Tapas du Moment (Grande)
-  /^(.+?)\s+(\d+cl)$/i,                     // Corsendonk pils 25cl
-  /^(.+?)\s+\+\s+(sirop)$/i,               // Panaché + sirop
+  /^(.+?)\s*\((\d+\s*pièces?)\)$/i,
+  /^(.+?)\s*\((Grande|Petite)\)$/i,
+  /^(.+?)\s+(\d+cl)$/i,
+  /^(.+?)\s+\+\s+(sirop)$/i,
 ];
 
 function extractBase(nom: string): { baseName: string; label: string } | null {
@@ -36,7 +35,6 @@ interface GroupedItem {
 }
 
 function groupVariants(items: MenuItemType[]): GroupedItem[] {
-  // 1. Identifier tous les noms de base qui ont des variantes à suffixe
   const baseNameMap = new Map<string, Array<{ label: string; item: MenuItemType; index: number }>>();
 
   items.forEach((item, index) => {
@@ -49,12 +47,10 @@ function groupVariants(items: MenuItemType[]): GroupedItem[] {
     }
   });
 
-  // 2. Chercher les items "de base" (sans suffixe) qui correspondent à un groupe
-  // Ex: "Tapas du Moment" est le nom de base de "Tapas du Moment (Grande)"
   items.forEach((item, index) => {
     if (item.prix === 0) return;
     const extracted = extractBase(item.nom);
-    if (extracted) return; // déjà traité comme variante
+    if (extracted) return;
 
     if (baseNameMap.has(item.nom.trim())) {
       const existing = baseNameMap.get(item.nom.trim())!;
@@ -62,7 +58,6 @@ function groupVariants(items: MenuItemType[]): GroupedItem[] {
     }
   });
 
-  // 3. Ne garder que les groupes avec 2+ variantes
   const groupedItemIds = new Set<string>();
   const validGroups = new Map<string, Array<{ label: string; item: MenuItemType; index: number }>>();
 
@@ -73,7 +68,6 @@ function groupVariants(items: MenuItemType[]): GroupedItem[] {
     }
   });
 
-  // 4. Construire le résultat dans l'ordre original
   const result: GroupedItem[] = [];
   const processed = new Set<string>();
 
@@ -82,7 +76,7 @@ function groupVariants(items: MenuItemType[]): GroupedItem[] {
 
     if (groupedItemIds.has(item.id)) {
       for (const [baseName, variants] of validGroups) {
-        const groupKey = baseName + "-group";
+        const groupKey = `${baseName}-group`;
         if (variants.some((v) => v.item.id === item.id) && !processed.has(groupKey)) {
           processed.add(groupKey);
           variants.forEach((v) => processed.add(v.item.id));
@@ -107,6 +101,16 @@ function groupVariants(items: MenuItemType[]): GroupedItem[] {
   return result.sort((a, b) => a.sortOrder - b.sortOrder);
 }
 
+function ChefIcon() {
+  return (
+    <svg className="w-4 h-4 text-mountain" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M7 11h10v8H7z" />
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M8 11V9a4 4 0 018 0v2" />
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M6 11a2 2 0 100-4 3 3 0 116 0 3 3 0 116 0 2 2 0 100 4" />
+    </svg>
+  );
+}
+
 export default function MenuCategory({ name, items, subtitle }: MenuCategoryProps) {
   if (items.length === 0) return null;
 
@@ -114,12 +118,11 @@ export default function MenuCategory({ name, items, subtitle }: MenuCategoryProp
   const grouped = groupVariants(items);
 
   return (
-    <section className={`mb-10 ${isChefSuggestion ? "bg-mountain/[0.04] -mx-4 px-4 py-6 rounded-xl border border-mountain/10" : ""}`}>
-      {/* Titre style carte avec lignes de part et d'autre */}
+    <section className={`mb-10 ${isChefSuggestion ? "bg-mountain/[0.05] -mx-4 px-4 py-6 rounded-xl border border-mountain/15" : ""}`}>
       <div className="flex items-center gap-4 mb-1">
         <div className="flex-1 h-[2px] bg-bistro/15" />
-        <h3 className="font-heading text-lg md:text-xl text-bistro uppercase tracking-wider whitespace-nowrap font-bold">
-          {isChefSuggestion && <span className="mr-2">👨‍🍳</span>}
+        <h3 className="font-heading text-xl text-bistro uppercase tracking-[0.16em] whitespace-nowrap font-semibold flex items-center gap-2">
+          {isChefSuggestion && <ChefIcon />}
           {name}
         </h3>
         <div className="flex-1 h-[2px] bg-bistro/15" />

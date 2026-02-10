@@ -14,7 +14,7 @@ export default function Button({
 
   const variants = {
     primary: "bg-accent text-white hover:bg-accent-dark focus:ring-accent",
-    secondary: "bg-mountain/20 text-bistro border border-mountain hover:bg-mountain/30 focus:ring-gold",
+    secondary: "bg-mountain/20 text-bistro border border-mountain hover:bg-mountain/30 focus:ring-mountain",
     danger: "bg-red-600 text-white hover:bg-red-700 focus:ring-red-500",
   };
 

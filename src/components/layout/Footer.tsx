@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { RESTAURANT } from "@/lib/constants";
@@ -11,26 +12,37 @@ export default function Footer() {
   if (pathname.startsWith("/admin")) return null;
 
   return (
-    <footer className="bg-bistro text-chalk/90">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+    <footer className="relative overflow-hidden bg-bistro text-chalk/90 mt-16">
+      <div className="absolute inset-0 opacity-[0.08] pointer-events-none">
+        <svg className="absolute bottom-0 left-0 w-full h-36" viewBox="0 0 1440 320" preserveAspectRatio="none">
+          <path fill="currentColor" d="M0,224 L130,180 L260,234 L390,166 L520,236 L650,170 L780,228 L910,152 L1040,220 L1170,170 L1300,226 L1440,188 L1440,320 L0,320 Z" />
+        </svg>
+      </div>
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
-            <div className="flex items-center gap-2 mb-3">
-              <TandemBike className="w-8 h-3.5 text-mountain-light" />
-              <h3 className="font-heading text-xl text-chalk">Le Tandem</h3>
+            <div className="inline-flex bg-chalk rounded-xl px-3 py-2 shadow-md shadow-black/20">
+              <Image
+                src="/images/logo-tandem-transparent.png"
+                alt="Le Tandem Bistrot-Resto"
+                width={1200}
+                height={374}
+                className="h-8 w-auto object-contain"
+              />
             </div>
-            <p className="text-xs text-mountain-light mb-3 italic">{RESTAURANT.subtitle}</p>
-            <p className="text-sm leading-relaxed text-chalk/70">{RESTAURANT.fullAddress}</p>
+            <p className="text-xs text-mountain-light mt-3 uppercase tracking-[0.22em]">Bistrot traditionnel</p>
+            <p className="text-sm leading-relaxed text-chalk/70 mt-4">{RESTAURANT.fullAddress}</p>
             {RESTAURANT.phone && <p className="text-sm mt-2 text-chalk/70">{RESTAURANT.phone}</p>}
+            <p className="text-xs text-chalk/50 mt-4">Le tandem, c&apos;est l&apos;esprit du lieu: un vélo deux places pour partager le voyage.</p>
           </div>
 
           <div>
             <h3 className="font-heading text-xl text-chalk mb-4">Horaires</h3>
-            <ul className="space-y-1">
+            <ul className="space-y-1.5">
               {RESTAURANT.hours.map((h) => (
-                <li key={h.day} className="text-sm flex justify-between">
+                <li key={h.day} className="text-sm flex justify-between gap-4">
                   <span className="font-medium text-chalk/80">{h.day}</span>
-                  <span className={h.hours === "Fermé" ? "text-chalk/30 italic" : "text-chalk/60"}>{h.hours}</span>
+                  <span className={h.hours === "Fermé" ? "text-chalk/35 italic" : "text-chalk/65"}>{h.hours}</span>
                 </li>
               ))}
             </ul>
@@ -52,15 +64,15 @@ export default function Footer() {
             </div>
             <div className="mt-6 space-y-2">
               <Link href="/carte" className="block text-sm text-chalk/60 hover:text-mountain-light transition-colors">La Carte</Link>
-              <Link href="/evenements" className="block text-sm text-chalk/60 hover:text-mountain-light transition-colors">&Eacute;v&eacute;nements</Link>
+              <Link href="/evenements" className="block text-sm text-chalk/60 hover:text-mountain-light transition-colors">Événements</Link>
               <Link href="/livre-dor" className="block text-sm text-chalk/60 hover:text-mountain-light transition-colors">Livre d&apos;Or</Link>
             </div>
           </div>
         </div>
         <div className="mt-10 pt-6 border-t border-chalk/10 flex flex-col items-center gap-3">
-          <TandemBike className="w-24 h-8 text-chalk/10" />
+          <TandemBike className="w-24 h-8 text-mountain-light/50" />
           <p className="text-sm text-chalk/40">
-            &copy; {new Date().getFullYear()} Le Tandem &mdash; Bistrot Resto &agrave; Embrun
+            &copy; {new Date().getFullYear()} Le Tandem &mdash; Bistrot Resto à Embrun
           </p>
         </div>
       </div>

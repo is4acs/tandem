@@ -1,3 +1,5 @@
+import TandemBike from "@/components/ui/TandemBike";
+
 interface SectionTitleProps {
   children: React.ReactNode;
   className?: string;
@@ -5,9 +7,13 @@ interface SectionTitleProps {
 
 export default function SectionTitle({ children, className = "" }: SectionTitleProps) {
   return (
-    <h2 className={`text-3xl md:text-4xl font-heading text-bistro mb-8 text-center ${className}`}>
-      {children}
-      <span className="block w-16 h-0.5 bg-accent mx-auto mt-3" />
-    </h2>
+    <div className={`text-center mb-8 ${className}`}>
+      <h2 className="text-4xl md:text-5xl font-heading text-bistro">{children}</h2>
+      <div className="mt-4 flex items-center justify-center gap-3">
+        <span className="h-px w-10 bg-bistro/25" />
+        <TandemBike className="w-16 h-6 text-mountain/70" />
+        <span className="h-px w-10 bg-bistro/25" />
+      </div>
+    </div>
   );
 }

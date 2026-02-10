@@ -3,59 +3,58 @@ import TandemBike from "@/components/ui/TandemBike";
 
 export default function Hero() {
   return (
-    <section className="relative bg-bistro text-chalk overflow-hidden min-h-[85vh] flex items-center">
-      {/* Silhouette de montagnes en fond */}
-      <div className="absolute inset-0 overflow-hidden">
-        <svg className="absolute bottom-0 left-0 w-full" viewBox="0 0 1440 320" preserveAspectRatio="none" style={{ height: "40%" }}>
-          <path fill="rgba(74,124,155,0.08)" d="M0,160 L120,140 L240,200 L360,120 L480,180 L600,100 L720,190 L840,110 L960,170 L1080,90 L1200,150 L1320,130 L1440,160 L1440,320 L0,320Z" />
-          <path fill="rgba(74,124,155,0.05)" d="M0,200 L180,170 L360,220 L540,160 L720,210 L900,150 L1080,200 L1260,180 L1440,200 L1440,320 L0,320Z" />
+    <section className="relative overflow-hidden bg-gradient-to-b from-bistro-dark via-bistro to-bistro-light text-chalk">
+      <div className="absolute inset-0 opacity-25 pointer-events-none">
+        <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-mountain-light/35 to-transparent" />
+        <svg className="absolute bottom-0 left-0 w-full" viewBox="0 0 1440 340" preserveAspectRatio="none" style={{ height: "48%" }}>
+          <path fill="rgba(107,163,196,0.18)" d="M0,220 L120,168 L240,238 L360,152 L480,232 L600,140 L720,236 L840,150 L960,230 L1080,136 L1200,218 L1320,178 L1440,220 L1440,340 L0,340Z" />
+          <path fill="rgba(107,163,196,0.12)" d="M0,248 L180,210 L360,260 L540,198 L720,252 L900,184 L1080,240 L1260,218 L1440,250 L1440,340 L0,340Z" />
         </svg>
       </div>
 
-      {/* Tandem décoratif en filigrane */}
-      <div className="absolute bottom-8 right-8 opacity-[0.06]">
-        <TandemBike className="w-72 md:w-96" color="#FFFFFF" />
-      </div>
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 py-16 md:py-24 lg:py-28 grid lg:grid-cols-[1.2fr_0.8fr] gap-10 items-center min-h-[84vh]">
+        <div>
+          <p className="text-xs md:text-sm uppercase tracking-[0.28em] text-mountain-light mb-5">Bistrot traditionnel · Embrun</p>
+          <h1 className="font-heading text-5xl md:text-7xl leading-[0.95] text-chalk tracking-tight">Cuisine de montagne, esprit bistrot</h1>
+          <p className="mt-6 text-lg text-chalk/80 max-w-xl leading-relaxed">
+            Produits locaux, plats qui r&eacute;chauffent et tapas &agrave; partager: une table de village revisit&eacute;e avec vue sur les sommets.
+          </p>
 
-      <div className="relative max-w-4xl mx-auto px-4 sm:px-6 py-20 md:py-32 text-center">
-        {/* Petit séparateur décoratif */}
-        <div className="flex items-center justify-center gap-4 mb-8">
-          <div className="w-12 h-px bg-mountain-light" />
-          <TandemBike className="w-16 h-6" color="#6BA3C4" />
-          <div className="w-12 h-px bg-mountain-light" />
+          <div className="mt-8 flex flex-col sm:flex-row gap-4">
+            <Link
+              href="/carte"
+              className="inline-flex items-center justify-center px-8 py-3.5 bg-accent text-white font-medium rounded-lg hover:bg-accent-dark shadow-lg shadow-accent/20"
+            >
+              Voir la carte
+            </Link>
+            <Link
+              href="/evenements"
+              className="inline-flex items-center justify-center px-8 py-3.5 border border-mountain-light/55 text-mountain-light font-medium rounded-lg hover:bg-mountain-light/10"
+            >
+              Soir&eacute;es &amp; &eacute;v&eacute;nements
+            </Link>
+          </div>
         </div>
 
-        <h1 className="font-heading text-5xl md:text-7xl font-bold text-chalk mb-4 tracking-tight">
-          Le Tandem
-        </h1>
-        <p className="text-lg md:text-xl text-mountain-light mb-2 font-light tracking-[0.2em] uppercase">
-          Bistrot &mdash; Resto
-        </p>
-        <p className="text-base text-chalk/50 mb-10 italic">
-          au c&oelig;ur d&apos;Embrun, Hautes-Alpes
-        </p>
+        <aside className="relative bg-chalk/[0.08] border border-mountain-light/25 rounded-2xl p-6 md:p-7 backdrop-blur-sm shadow-xl shadow-black/10">
+          <p className="text-[11px] uppercase tracking-[0.24em] text-mountain-light">Ardoise de la montagne</p>
+          <h2 className="font-heading text-3xl text-chalk mt-2">L&apos;esprit Le Tandem</h2>
 
-        <div className="w-16 h-px bg-accent mx-auto mb-10" />
-
-        <p className="text-lg text-chalk/70 max-w-xl mx-auto mb-12 leading-relaxed">
-          Cuisine de bistrot, produits locaux et bonne humeur &mdash; le tout avec vue sur les montagnes.
-          Soir&eacute;es jeux, concerts et belles d&eacute;couvertes.
-        </p>
-
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link
-            href="/carte"
-            className="inline-flex items-center justify-center px-8 py-3.5 bg-accent text-white font-medium rounded-lg hover:bg-accent-dark transition-colors text-lg shadow-lg shadow-accent/20"
-          >
-            D&eacute;couvrir la Carte
-          </Link>
-          <Link
-            href="/evenements"
-            className="inline-flex items-center justify-center px-8 py-3.5 border-2 border-mountain-light/40 text-mountain-light font-medium rounded-lg hover:bg-mountain-light/10 transition-colors text-lg"
-          >
-            Nos &Eacute;v&eacute;nements
-          </Link>
-        </div>
+          <div className="mt-6 space-y-4 text-chalk/85">
+            <div className="pb-4 border-b border-mountain-light/20">
+              <p className="text-sm uppercase tracking-[0.2em] text-mountain-light mb-1">Tapas du moment</p>
+              <p className="text-sm">Tapas &agrave; partager, inspir&eacute;es des saisons et des produits locaux.</p>
+            </div>
+            <div className="pb-4 border-b border-mountain-light/20">
+              <p className="text-sm uppercase tracking-[0.2em] text-mountain-light mb-1">Ambiance</p>
+              <p className="text-sm">Bois, pierres, lumi&egrave;res chaudes et service de bistrot traditionnel.</p>
+            </div>
+            <div className="flex items-center gap-3 pt-1">
+              <TandemBike className="w-16 h-6 text-mountain-light" />
+              <p className="text-sm text-chalk/75">Le tandem: un v&eacute;lo deux places, symbole du partage &agrave; table.</p>
+            </div>
+          </div>
+        </aside>
       </div>
     </section>
   );
