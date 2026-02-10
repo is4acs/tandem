@@ -1,104 +1,10 @@
 import type { MenuItem as MenuItemType } from "@/lib/types";
-import MenuItem from "./MenuItem";
-import MenuItemGroup from "./MenuItemGroup";
+import MenuCategoryEntries from "./MenuCategoryEntries";
 
 interface MenuCategoryProps {
   name: string;
   items: MenuItemType[];
   subtitle?: string;
-}
-
-const VARIANT_PATTERNS = [
-  /^(.+?)\s*\((\d+\s*pièces?)\)$/i,
-  /^(.+?)\s*\((Grande|Petite)\)$/i,
-  /^(.+?)\s+(\d+cl)$/i,
-  /^(.+?)\s+\+\s+(sirop)$/i,
-];
-
-function extractBase(nom: string): { baseName: string; label: string } | null {
-  for (const pattern of VARIANT_PATTERNS) {
-    const match = nom.match(pattern);
-    if (match) {
-      return { baseName: match[1].trim(), label: match[2] };
-    }
-  }
-  return null;
-}
-
-interface GroupedItem {
-  type: "single" | "grouped";
-  item?: MenuItemType;
-  baseName?: string;
-  description?: string;
-  variants?: Array<{ label: string; item: MenuItemType }>;
-  sortOrder: number;
-}
-
-function groupVariants(items: MenuItemType[]): GroupedItem[] {
-  const baseNameMap = new Map<string, Array<{ label: string; item: MenuItemType; index: number }>>();
-
-  items.forEach((item, index) => {
-    if (item.prix === 0) return;
-    const extracted = extractBase(item.nom);
-    if (extracted) {
-      const existing = baseNameMap.get(extracted.baseName) || [];
-      existing.push({ label: extracted.label, item, index });
-      baseNameMap.set(extracted.baseName, existing);
-    }
-  });
-
-  items.forEach((item, index) => {
-    if (item.prix === 0) return;
-    const extracted = extractBase(item.nom);
-    if (extracted) return;
-
-    if (baseNameMap.has(item.nom.trim())) {
-      const existing = baseNameMap.get(item.nom.trim())!;
-      existing.unshift({ label: "", item, index });
-    }
-  });
-
-  const groupedItemIds = new Set<string>();
-  const validGroups = new Map<string, Array<{ label: string; item: MenuItemType; index: number }>>();
-
-  baseNameMap.forEach((variants, baseName) => {
-    if (variants.length >= 2) {
-      validGroups.set(baseName, variants);
-      variants.forEach((v) => groupedItemIds.add(v.item.id));
-    }
-  });
-
-  const result: GroupedItem[] = [];
-  const processed = new Set<string>();
-
-  items.forEach((item, index) => {
-    if (processed.has(item.id)) return;
-
-    if (groupedItemIds.has(item.id)) {
-      for (const [baseName, variants] of validGroups) {
-        const groupKey = `${baseName}-group`;
-        if (variants.some((v) => v.item.id === item.id) && !processed.has(groupKey)) {
-          processed.add(groupKey);
-          variants.forEach((v) => processed.add(v.item.id));
-
-          const desc = variants.find((v) => v.item.description)?.item.description || undefined;
-          result.push({
-            type: "grouped",
-            baseName,
-            description: desc,
-            variants: variants.map((v) => ({ label: v.label, item: v.item })),
-            sortOrder: Math.min(...variants.map((v) => v.index)),
-          });
-          break;
-        }
-      }
-    } else {
-      processed.add(item.id);
-      result.push({ type: "single", item, sortOrder: index });
-    }
-  });
-
-  return result.sort((a, b) => a.sortOrder - b.sortOrder);
 }
 
 function ChefIcon() {
@@ -115,7 +21,6 @@ export default function MenuCategory({ name, items, subtitle }: MenuCategoryProp
   if (items.length === 0) return null;
 
   const isChefSuggestion = name === "Suggestions du Chef";
-  const grouped = groupVariants(items);
 
   return (
     <section className={`mb-8 md:mb-10 ${isChefSuggestion ? "bg-mountain/[0.05] -mx-2 sm:-mx-4 px-3 sm:px-4 py-5 md:py-6 rounded-xl border border-mountain/15" : ""}`}>
@@ -131,20 +36,7 @@ export default function MenuCategory({ name, items, subtitle }: MenuCategoryProp
         <p className="text-center text-xs text-slate-light uppercase tracking-widest mb-4">{subtitle}</p>
       )}
       {!subtitle && <div className="mb-4" />}
-      <div>
-        {grouped.map((g, idx) =>
-          g.type === "single" ? (
-            <MenuItem key={g.item!.id} item={g.item!} />
-          ) : (
-            <MenuItemGroup
-              key={`group-${idx}`}
-              baseName={g.baseName!}
-              description={g.description}
-              variants={g.variants!}
-            />
-          )
-        )}
-      </div>
+      <MenuCategoryEntries items={items} />
     </section>
   );
 }

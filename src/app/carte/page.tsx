@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import MenuCategory from "@/components/menu/MenuCategory";
+import MenuV2Mobile from "@/components/menu/MenuV2Mobile";
 import type { MenuItem } from "@/lib/types";
 import { MENU_CATEGORIES } from "@/lib/constants";
 import { supabaseAdmin } from "@/lib/supabase-server";
@@ -84,22 +85,26 @@ export default async function CartePage() {
 
       {hasItems ? (
         <>
-          {foodGroups.map((group) => (
-            <MenuCategory key={group.name} name={group.name} subtitle={group.subtitle} items={group.items} />
-          ))}
+          <MenuV2Mobile foodGroups={foodGroups} drinkGroups={drinkGroups} />
 
-          {drinkGroups.some((g) => g.items.length > 0) && (
-            <div className="my-9 md:my-12 flex items-center gap-3 md:gap-4">
-              <div className="flex-1 h-px bg-bistro/10" />
-              <span className="text-bistro/45 text-xs uppercase tracking-[0.24em]">Boissons</span>
-              <div className="flex-1 h-px bg-bistro/10" />
-            </div>
-          )}
-
-          <div className="md:grid md:grid-cols-2 md:gap-x-8">
-            {drinkGroups.map((group) => (
+          <div className="hidden md:block">
+            {foodGroups.map((group) => (
               <MenuCategory key={group.name} name={group.name} subtitle={group.subtitle} items={group.items} />
             ))}
+
+            {drinkGroups.some((g) => g.items.length > 0) && (
+              <div className="my-9 md:my-12 flex items-center gap-3 md:gap-4">
+                <div className="flex-1 h-px bg-bistro/10" />
+                <span className="text-bistro/45 text-xs uppercase tracking-[0.24em]">Boissons</span>
+                <div className="flex-1 h-px bg-bistro/10" />
+              </div>
+            )}
+
+            <div className="md:grid md:grid-cols-2 md:gap-x-8">
+              {drinkGroups.map((group) => (
+                <MenuCategory key={group.name} name={group.name} subtitle={group.subtitle} items={group.items} />
+              ))}
+            </div>
           </div>
 
           <div className="mt-12 py-4 border-t border-bistro/10 text-center">
