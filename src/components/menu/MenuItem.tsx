@@ -6,26 +6,64 @@ interface MenuItemProps {
   item: MenuItemType;
 }
 
-export default function MenuItem({ item }: MenuItemProps) {
+function renderDescription(description: string) {
+  // Séparer les hashtags du reste de la description
+  const parts = description.split(/(#\S+)/g);
+  const textParts: string[] = [];
+  const hashtags: string[] = [];
+
+  parts.forEach((part) => {
+    if (part.startsWith("#")) {
+      hashtags.push(part);
+    } else if (part.trim()) {
+      textParts.push(part.trim());
+    }
+  });
+
   return (
-    <div className="flex justify-between items-start gap-4 py-3 border-b border-gold/10 last:border-0">
+    <>
+      {textParts.length > 0 && (
+        <p className="text-sm text-wood/60 mt-0.5 italic">{textParts.join(" ")}</p>
+      )}
+      {hashtags.length > 0 && (
+        <p className="text-xs text-wood/40 mt-0.5">
+          {hashtags.join(" ")}
+        </p>
+      )}
+    </>
+  );
+}
+
+export default function MenuItem({ item }: MenuItemProps) {
+  // Items avec prix à 0 sont des titres/descriptions (ex: nom de bière pression)
+  const isHeader = item.prix === 0;
+
+  if (isHeader) {
+    return (
+      <div className="pt-4 pb-1">
+        <h4 className="font-semibold text-wood">{item.nom}</h4>
+        {item.description && renderDescription(item.description)}
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex justify-between items-start gap-4 py-2.5 border-b border-wood/[0.06] last:border-0">
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 flex-wrap">
-          <h3 className="font-medium text-wood">{item.nom}</h3>
+          <span className="font-medium text-wood">{item.nom}</span>
           {item.promo && <PromoTag />}
         </div>
-        {item.description && (
-          <p className="text-sm text-wood-light mt-1">{item.description}</p>
-        )}
+        {item.description && renderDescription(item.description)}
       </div>
       <div className="text-right shrink-0">
         {item.promo && item.prix_promo != null ? (
           <div>
-            <span className="text-sm text-wood/40 line-through">{formatPrice(item.prix)}</span>
-            <span className="block text-lg font-bold text-terracotta">{formatPrice(item.prix_promo)}</span>
+            <span className="text-sm text-wood/30 line-through">{formatPrice(item.prix)}</span>
+            <span className="block text-base font-bold text-terracotta">{formatPrice(item.prix_promo)}</span>
           </div>
         ) : (
-          <span className="text-lg font-semibold text-wood">{formatPrice(item.prix)}</span>
+          <span className="text-base font-semibold text-wood">{formatPrice(item.prix)}</span>
         )}
       </div>
     </div>
