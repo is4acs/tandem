@@ -1,22 +1,30 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-cream: #FFF8F0;
-  --color-cream-dark: #F5EDE3;
-  --color-terracotta: #C75B39;
-  --color-terracotta-light: #D4764A;
-  --color-terracotta-dark: #A84B2E;
-  --color-wood: #3E2723;
-  --color-wood-light: #5D4037;
-  --color-gold: #D4A574;
-  --color-gold-light: #E4C49A;
+  /* Palette bleu montagne / bistrot */
+  --color-cream: #F7F5F2;
+  --color-cream-dark: #EDE9E3;
+  --color-bistro: #1B2D45;
+  --color-bistro-light: #2E4563;
+  --color-bistro-dark: #0F1D30;
+  --color-slate: #3D4F5F;
+  --color-slate-light: #6B7D8D;
+  --color-accent: #C8553D;
+  --color-accent-light: #D4764A;
+  --color-accent-dark: #A84430;
+  --color-mountain: #4A7C9B;
+  --color-mountain-light: #6BA3C4;
+  --color-mountain-dark: #365D75;
+  --color-chalk: #FFFFFF;
+  --color-warm: #D4A574;
+  --color-warm-light: #E4C49A;
   --font-heading: var(--font-playfair);
   --font-body: var(--font-inter);
 }
 
 body {
   background-color: var(--color-cream);
-  color: var(--color-wood);
+  color: var(--color-bistro);
   font-family: var(--font-body), system-ui, sans-serif;
 }
 

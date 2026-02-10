@@ -12,7 +12,7 @@ export default function ReseauxPage() {
   return (
     <div className="max-w-2xl mx-auto px-4 sm:px-6 py-12 md:py-20">
       <SectionTitle>Suivez-nous</SectionTitle>
-      <p className="text-center text-wood-light mb-10 text-lg">
+      <p className="text-center text-slate-light mb-10 text-lg">
         Retrouvez-nous sur les réseaux sociaux pour suivre nos actualités, nos plats du jour et nos événements !
       </p>
       <div className="space-y-6">

@@ -30,14 +30,14 @@ export default async function LivreDorPage() {
   return (
     <div className="max-w-2xl mx-auto px-4 sm:px-6 py-12 md:py-20">
       <SectionTitle>Livre d&apos;Or</SectionTitle>
-      <p className="text-center text-wood-light mb-10 text-lg">
+      <p className="text-center text-slate-light mb-10 text-lg">
         Partagez votre expérience au Tandem ! Votre avis compte pour nous.
       </p>
       <div className="mb-12">
         <GuestbookForm />
       </div>
       <div>
-        <h3 className="font-heading text-xl text-wood mb-6">Vos messages</h3>
+        <h3 className="font-heading text-xl text-bistro mb-6">Vos messages</h3>
         <GuestbookList entries={entries} />
       </div>
     </div>

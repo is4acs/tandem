@@ -12,8 +12,8 @@ DELETE FROM menu_items;
 
 -- ENTRÉES
 INSERT INTO menu_items (categorie, nom, description, prix, promo, prix_promo, ordre) VALUES
-  ('Entrées', 'Tapas du Moment', 'Sélection du chef', 14.00, false, null, 1),
-  ('Entrées', 'Tapas du Moment (Grande)', 'Sélection du chef - grande portion', 24.00, false, null, 2),
+  ('Entrées', 'Tapas du Moment (Petite)', 'Sélection du chef', 14.00, false, null, 1),
+  ('Entrées', 'Tapas du Moment (Grande)', 'Sélection du chef', 24.00, false, null, 2),
   ('Entrées', 'Escargots de Bourgogne (6 pièces)', 'Beurre persillé maison', 11.50, false, null, 3),
   ('Entrées', 'Escargots de Bourgogne (12 pièces)', 'Beurre persillé maison', 19.50, false, null, 4),
   ('Entrées', 'Os à Moëlle', 'Servi avec pain grillé', 7.00, false, null, 5),

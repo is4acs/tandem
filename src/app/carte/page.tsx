@@ -3,7 +3,7 @@ import MenuCategory from "@/components/menu/MenuCategory";
 import type { MenuItem } from "@/lib/types";
 import { MENU_CATEGORIES } from "@/lib/constants";
 import { supabaseAdmin } from "@/lib/supabase-server";
-import Image from "next/image";
+import TandemBike from "@/components/ui/TandemBike";
 
 export const metadata: Metadata = {
   title: "La Carte",
@@ -12,7 +12,6 @@ export const metadata: Metadata = {
 
 export const revalidate = 300;
 
-// Sous-titres pour certaines catégories (comme sur la carte imprimée)
 const CATEGORY_SUBTITLES: Record<string, string> = {
   "Vins Rouges": "Bouteille de 75cl",
   "Vins Blancs": "Bouteille de 75cl",
@@ -43,62 +42,56 @@ export default async function CartePage() {
   }));
   const hasItems = items.length > 0;
 
-  // Séparer nourriture et boissons
   const foodCategories = ["Entrées", "Plats", "Suggestions du Chef", "Desserts"];
   const foodGroups = grouped.filter((g) => foodCategories.includes(g.name));
   const drinkGroups = grouped.filter((g) => !foodCategories.includes(g.name));
 
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12 md:py-20">
-      {/* Logo en haut de la carte */}
-      <div className="text-center mb-10">
-        <Image
-          src="/images/logo-tandem.png"
-          alt="Le Tandem - Bistrot Resto"
-          width={250}
-          height={90}
-          className="mx-auto mb-2"
-          style={{ objectFit: "contain" }}
-        />
+      {/* Titre avec vélo tandem */}
+      <div className="text-center mb-12">
+        <div className="flex items-center justify-center gap-4 mb-4">
+          <div className="w-12 h-px bg-bistro/20" />
+          <TandemBike className="w-14 h-5 text-mountain" />
+          <div className="w-12 h-px bg-bistro/20" />
+        </div>
+        <h1 className="font-heading text-3xl md:text-4xl text-bistro">La Carte</h1>
+        <p className="text-sm text-slate-light mt-2 italic">Bistrot &mdash; Resto</p>
       </div>
 
       {hasItems ? (
         <>
-          {/* Section nourriture */}
           {foodGroups.map((group) => (
             <MenuCategory key={group.name} name={group.name} subtitle={group.subtitle} items={group.items} />
           ))}
 
-          {/* Séparateur avant les boissons */}
           {drinkGroups.some((g) => g.items.length > 0) && (
             <div className="my-12 flex items-center gap-4">
-              <div className="flex-1 h-px bg-wood/10" />
-              <span className="text-wood/30 text-sm uppercase tracking-widest">Boissons</span>
-              <div className="flex-1 h-px bg-wood/10" />
+              <div className="flex-1 h-px bg-bistro/10" />
+              <span className="text-bistro/30 text-sm uppercase tracking-widest">Boissons</span>
+              <div className="flex-1 h-px bg-bistro/10" />
             </div>
           )}
 
-          {/* Section boissons en grille sur desktop */}
           <div className="md:grid md:grid-cols-2 md:gap-x-8">
             {drinkGroups.map((group) => (
               <MenuCategory key={group.name} name={group.name} subtitle={group.subtitle} items={group.items} />
             ))}
           </div>
 
-          {/* Note allergènes */}
-          <div className="mt-12 py-4 border-t border-wood/10 text-center">
-            <p className="text-wood/50 text-sm italic">
-              Pensez à nous prévenir de vos allergies et à nous demander le tableau spécifique.
+          <div className="mt-12 py-4 border-t border-bistro/10 text-center">
+            <p className="text-slate-light text-sm italic">
+              Pensez &agrave; nous pr&eacute;venir de vos allergies et &agrave; nous demander le tableau sp&eacute;cifique.
             </p>
-            <p className="text-wood/30 text-xs mt-3">
-              Prix nets et service compris - l&apos;abus d&apos;alcool est dangereux pour la santé.
+            <p className="text-bistro/25 text-xs mt-3">
+              Prix nets et service compris &mdash; l&apos;abus d&apos;alcool est dangereux pour la sant&eacute;.
             </p>
           </div>
         </>
       ) : (
         <div className="text-center py-16">
-          <p className="text-wood-light text-lg">La carte est en cours de préparation...</p>
-          <p className="text-wood-light/60 mt-2">Revenez bientôt pour découvrir nos plats !</p>
+          <p className="text-slate-light text-lg">La carte est en cours de pr&eacute;paration...</p>
+          <p className="text-slate-light/60 mt-2">Revenez bient&ocirc;t pour d&eacute;couvrir nos plats !</p>
         </div>
       )}
     </div>

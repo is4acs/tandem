@@ -18,15 +18,15 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Le Tandem | Restaurant à Embrun",
+    default: "Le Tandem | Bistrot-Resto à Embrun",
     template: "%s | Le Tandem",
   },
   description:
-    "Le Tandem, restaurant à Embrun. Découvrez notre carte, nos événements et laissez-nous un message dans notre livre d'or.",
+    "Le Tandem, bistrot-resto à Embrun dans les Hautes-Alpes. Découvrez notre carte, nos événements et laissez-nous un message dans notre livre d'or.",
   openGraph: {
-    title: "Le Tandem | Restaurant à Embrun",
+    title: "Le Tandem | Bistrot-Resto à Embrun",
     description:
-      "Découvrez notre carte, nos événements et laissez-nous un message dans notre livre d'or.",
+      "Bistrot-resto au cœur d'Embrun. Découvrez notre carte, nos événements et notre ambiance chaleureuse.",
     locale: "fr_FR",
     type: "website",
   },

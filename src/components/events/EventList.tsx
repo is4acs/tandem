@@ -9,8 +9,8 @@ export default function EventList({ events }: EventListProps) {
   if (events.length === 0) {
     return (
       <div className="text-center py-16">
-        <p className="text-wood-light text-lg">Aucun événement à venir pour le moment.</p>
-        <p className="text-wood-light/60 mt-2">Suivez-nous sur les réseaux sociaux pour être informé des prochains événements !</p>
+        <p className="text-slate-light text-lg">Aucun événement à venir pour le moment.</p>
+        <p className="text-slate-light/60 mt-2">Suivez-nous sur les réseaux sociaux pour être informé des prochains événements !</p>
       </div>
     );
   }

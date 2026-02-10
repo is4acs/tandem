@@ -13,8 +13,8 @@ export default function Button({
   const base = "inline-flex items-center justify-center font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed";
 
   const variants = {
-    primary: "bg-terracotta text-white hover:bg-terracotta-dark focus:ring-terracotta",
-    secondary: "bg-gold/20 text-wood border border-gold hover:bg-gold/30 focus:ring-gold",
+    primary: "bg-accent text-white hover:bg-accent-dark focus:ring-accent",
+    secondary: "bg-mountain/20 text-bistro border border-mountain hover:bg-mountain/30 focus:ring-gold",
     danger: "bg-red-600 text-white hover:bg-red-700 focus:ring-red-500",
   };
 

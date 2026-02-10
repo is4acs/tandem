@@ -9,7 +9,7 @@ export default function GuestbookList({ entries }: GuestbookListProps) {
   if (entries.length === 0) {
     return (
       <div className="text-center py-8">
-        <p className="text-wood-light">Soyez le premier à laisser un message !</p>
+        <p className="text-slate-light">Soyez le premier à laisser un message !</p>
       </div>
     );
   }
